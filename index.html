@@ -5,264 +5,241 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Image Generator</title>
     <style>
-        /* --- Basic Reset & Body Styling --- */
-        :root {
-            --primary-color: #007bff;
-            --primary-hover-color: #0056b3;
-            --success-color: #28a745;
-            --success-hover-color: #218838;
-            --error-color: #dc3545;
-            --light-gray: #f8f9fa;
-            --gray: #6c757d;
-            --dark-gray: #343a40;
-            --border-color: #dee2e6;
-            --white: #ffffff;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            background-color: var(--light-gray);
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background-color: #f0f2f5;
             margin: 0;
-            padding: 1rem;
+            padding: 20px;
             box-sizing: border-box;
-            color: var(--dark-gray);
         }
-
-        /* --- Main Container --- */
         .container {
-            background-color: var(--white);
-            padding: 2.5rem;
+            background-color: #ffffff;
+            padding: 30px;
             border-radius: 12px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
             text-align: center;
-            width: 100%;
-            max-width: 550px;
-            transition: all 0.3s ease;
-        }
-
-        h1 {
-            color: var(--dark-gray);
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-        }
-
-        /* --- Form Elements Styling --- */
-        textarea {
-            width: 100%;
             box-sizing: border-box;
-            padding: 0.75rem 1rem;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 1rem;
             font-size: 1rem;
-            line-height: 1.5;
             resize: vertical;
-            min-height: 100px;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            min-height: 80px;
+            box-sizing: border-box;
         }
-
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-        }
-
         button {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
             border: none;
-            color: var(--white);
-            font-size: 1.1rem;
-            font-weight: 500;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.1s;
-            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 5px;
         }
-
-        button:active:not(:disabled) {
-            transform: scale(0.99);
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
         }
-
-        #generateBtn {
-            background-color: var(--primary-color);
-        }
-
-        #generateBtn:hover:not(:disabled) {
-            background-color: var(--primary-hover-color);
-        }
-
-        #generateBtn:disabled {
-            background-color: #a0c7f7;
+        button:disabled {
+            background-color: #cccccc;
             cursor: not-allowed;
         }
-
-        #downloadBtn {
-            background-color: var(--success-color);
-            display: none; /* Hidden by default */
-        }
-
-        #downloadBtn:hover {
-            background-color: var(--success-hover-color);
-        }
-
-        /* --- Status & Image Display --- */
-        .status {
-            min-height: 24px;
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-            color: var(--gray);
-            line-height: 1.5;
-        }
-
-        #generatedImage {
-            max-width: 100%;
+.image-display {
+            margin-top: 30px;
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px dashed #e0e0e0;
             border-radius: 8px;
-            margin-top: 1rem;
-            display: none; /* Hidden by default */
-            border: 1px solid var(--border-color);
+            overflow: hidden;
+            background-color: #f9f9f9;
         }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 600px) {
-            body {
-                padding: 0.5rem;
-            }
+        .image-display img {
+            max-width: 100%;
+            max-height: 500px;
+            border-radius: 6px;
+            display: block; /* Remove extra space below image */
+        }
+        .status-message {
+            margin-top: 20px;
+            font-size: 0.95rem;
+            color: #555;
+            min-height: 20px;
+        }
+        .error-message {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .success-message {
+            color: #28a745;
+        }
+        .download-button-group {
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
             .container {
-                padding: 1.5rem;
+                margin: 10px;
+                padding: 20px;
             }
             h1 {
-                font-size: 1.75rem;
+                font-size: 1.6em;
+            }
+            button {
+                width: calc(100% - 10px);
+                margin-bottom: 10px;
             }
         }
     </style>
 </head>
 <body>
-
-    <main class="container">
+    <div class="container">
         <h1>AI Image Generator</h1>
-        <textarea id="prompt" placeholder="e.g., A cute cat astronaut in a cosmic galaxy, digital art"></textarea>
-        <button id="generateBtn">Generate Image</button>
-        <div class="status" id="status"></div>
-        <img id="generatedImage" src="" alt="Generated AI Image">
-        <button id="downloadBtn">Download Image</button>
-    </main>
+        <div class="input-group">
+            <textarea id="promptInput" placeholder="Enter your image description here (e.g., a astronaut riding a horse on Mars, photorealistic, cinematic light)..."></textarea>
+            <button id="generateButton">Generate Image</button>
+        </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const promptInput = document.getElementById('prompt');
-            const generateBtn = document.getElementById('generateBtn');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const statusDiv = document.getElementById('status');
-            const generatedImage = document.getElementById('generatedImage');
+        <div class="status-message" id="statusMessage"></div>
 
-            // --- Configuration ---
-            // IMPORTANT: Replace with your actual Hugging Face API token
-            const YOUR_HF_API_TOKEN = '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';
-            const API_URL = 'https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev';
+        <div class="image-display">
+            <img id="generatedImage" src="" alt="Generated Image" style="display: none;">
+        </div>
 
-            let currentImageUrl = null;
+        <div class="download-button-group">
+            <button id="downloadButton" style="display: none;">Download Image</button>
+        </div>
+    </div>
+<script>
+        // IMPORTANT: Replace 'YOUR_HF_API_TOKEN' with your actual Hugging Face API token.
+        // You can get one from your Hugging Face profile settings.
+        const HF_API_TOKEN = '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'; 
+        const API_URL = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev";
 
-            // --- Generate Image Functionality ---
-            generateBtn.addEventListener('click', async () => {
-                const prompt = promptInput.value.trim();
+        const promptInput = document.getElementById('promptInput');
+        const generateButton = document.getElementById('generateButton');
+        const statusMessage = document.getElementById('statusMessage');
+        const generatedImage = document.getElementById('generatedImage');
+        const downloadButton = document.getElementById('downloadButton');
 
-                if (!prompt) {
-                    displayMessage('Please enter an image description.', 'error');
-                    return;
-                }
+        let currentBlob = null; // To store the raw image blob for download
 
-                if (YOUR_HF_API_TOKEN === 'YOUR_HF_API_TOKEN' || !YOUR_HF_API_TOKEN) {
-                    displayMessage('API token is not set. Please update the script.', 'error');
-                    console.error("API Token is missing. Replace 'YOUR_HF_API_TOKEN' in the script.");
-                    return;
-                }
+        generateButton.addEventListener('click', generateImage);
+        downloadButton.addEventListener('click', downloadImage);
 
-                setLoadingState(true);
+        async function generateImage() {
+            const prompt = promptInput.value.trim();
+            if (!prompt) {
+                statusMessage.textContent = 'Please enter a description for the image.';
+                statusMessage.className = 'status-message error-message';
+                return;
+            }
+if (HF_API_TOKEN === 'YOUR_HF_API_TOKEN' || !HF_API_TOKEN) {
+                statusMessage.textContent = 'Error: Please replace "YOUR_HF_API_TOKEN" with your actual Hugging Face API token.';
+                statusMessage.className = 'status-message error-message';
+                return;
+            }
 
-                try {
-                    const response = await fetch(API_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${YOUR_HF_API_TOKEN}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ inputs: prompt }),
-                    });
+            // Clear previous image and download button
+            if (currentBlob) {
+                URL.revokeObjectURL(generatedImage.src); // Revoke previous blob URL
+                currentBlob = null;
+            }
+            generatedImage.src = '';
+            generatedImage.style.display = 'none';
+            downloadButton.style.display = 'none';
 
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.error || `Server error: ${response.status}`);
+            statusMessage.textContent = 'Generating... This might take a moment.';
+            statusMessage.className = 'status-message';
+            generateButton.disabled = true;
+
+            try {
+                const negative_prompt = "blurry, low quality, distorted, extra limbs, ugly, deformed, noisy, out of focus";
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${HF_API_TOKEN}`
+                    },
+                    body: JSON.stringify({
+                        inputs: prompt,
+                        parameters: {
+                            negative_prompt: negative_prompt
+                        }
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    let errorMessage = `API Error: ${response.status} ${response.statusText}.`;
+                    try {
+                        const errorJson = JSON.parse(errorText);
+                        if (errorJson.error) {
+                            errorMessage += ` Details: ${errorJson.error}`;
+                        }
+                    } catch (e) {
+                        errorMessage += ` Response: ${errorText}`;
                     }
-
-                    const imageBlob = await response.blob();
-                    handleSuccess(imageBlob);
-
-                } catch (error) {
-                    handleFailure(error);
-                } finally {
-                    setLoadingState(false);
+                    if (response.status === 429) {
+                        errorMessage += " You might be rate-limited. Please try again in a moment.";
+                    } else if (response.status === 401) {
+                        errorMessage += " Invalid API token. Please check your Hugging Face API token.";
+                    }
+                    throw new Error(errorMessage);
                 }
-            });
+currentBlob = await response.blob(); // Store the blob directly
+                const blobUrl = URL.createObjectURL(currentBlob); // Create a URL for display
 
-            // --- Download Image Functionality ---
-            downloadBtn.addEventListener('click', () => {
-                if (!currentImageUrl) return;
-
-                const link = document.createElement('a');
-                link.href = currentImageUrl;
-                const promptText = promptInput.value.trim().replace(/[^a-z0-9]/gi, '_').substring(0, 30);
-                link.download = `${promptText || 'generated-image'}.jpeg`;
-                
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-
-            // --- Helper Functions ---
-            function setLoadingState(isLoading) {
-                generateBtn.disabled = isLoading;
-                if (isLoading) {
-                    displayMessage('Generating... This might take a moment.', 'loading');
-                    generatedImage.style.display = 'none';
-                    downloadBtn.style.display = 'none';
-                }
-            }
-
-            function handleSuccess(imageBlob) {
-                // Revoke the previous object URL to free up memory
-                if (currentImageUrl) {
-                    URL.revokeObjectURL(currentImageUrl);
-                }
-
-                currentImageUrl = URL.createObjectURL(imageBlob);
-                generatedImage.src = currentImageUrl;
+                generatedImage.src = blobUrl;
                 generatedImage.style.display = 'block';
-                downloadBtn.style.display = 'block';
-                displayMessage('Image generated successfully!', 'success');
-            }
+                downloadButton.style.display = 'inline-block';
+                
+                statusMessage.textContent = 'Image generated successfully!';
+                statusMessage.className = 'status-message success-message';
 
-            function handleFailure(error) {
-                displayMessage(`Generation failed: ${error.message}`, 'error');
-                console.error('Detailed Error:', error);
-                generatedImage.style.display = 'none';
-                downloadBtn.style.display = 'none';
+            } catch (error) {
+                statusMessage.textContent = `Error: ${error.message}`;
+                statusMessage.className = 'status-message error-message';
+                console.error('Error generating image:', error);
+            } finally {
+                generateButton.disabled = false;
             }
+        }
 
-            function displayMessage(message, type) {
-                statusDiv.textContent = message;
-                statusDiv.style.color = type === 'error' ? 'var(--error-color)' :
-                                        type === 'success' ? 'var(--success-color)' :
-                                        'var(--gray)';
+        function downloadImage() {
+            if (currentBlob) {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(currentBlob); // Create a new URL for download
+                a.download = 'generated-image.jpeg'; // Save as JPEG
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(a.href); // Clean up the object URL after download
+            } else {
+                statusMessage.textContent = 'No image to download.';
+                statusMessage.className = 'status-message error-message';
             }
-        });
+        }
     </script>
-
 </body>
 </html>
