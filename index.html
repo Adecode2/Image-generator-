@@ -64,7 +64,7 @@
             background-color: #cccccc;
             cursor: not-allowed;
         }
-.image-display {
+        .image-display {
             margin-top: 30px;
             min-height: 200px;
             display: flex;
@@ -129,11 +129,12 @@
         <div class="download-button-group">
             <button id="downloadButton" style="display: none;">Download Image</button>
         </div>
-    </div>
-<script>
+            </div>
+
+    <script>
         // IMPORTANT: Replace 'YOUR_HF_API_TOKEN' with your actual Hugging Face API token.
         // You can get one from your Hugging Face profile settings.
-        const HF_API_TOKEN = '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'; 
+        const HF_API_TOKEN = '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'; 
         const API_URL = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev";
 
         const promptInput = document.getElementById('promptInput');
@@ -154,7 +155,7 @@
                 statusMessage.className = 'status-message error-message';
                 return;
             }
-if (HF_API_TOKEN === 'YOUR_HF_API_TOKEN' || !HF_API_TOKEN) {
+            if (HF_API_TOKEN === 'YOUR_HF_API_TOKEN' || !HF_API_TOKEN) {
                 statusMessage.textContent = 'Error: Please replace "YOUR_HF_API_TOKEN" with your actual Hugging Face API token.';
                 statusMessage.className = 'status-message error-message';
                 return;
@@ -207,7 +208,8 @@ if (HF_API_TOKEN === 'YOUR_HF_API_TOKEN' || !HF_API_TOKEN) {
                     }
                     throw new Error(errorMessage);
                 }
-currentBlob = await response.blob(); // Store the blob directly
+
+                currentBlob = await response.blob(); // Store the blob directly
                 const blobUrl = URL.createObjectURL(currentBlob); // Create a URL for display
 
                 generatedImage.src = blobUrl;
@@ -243,3 +245,5 @@ currentBlob = await response.blob(); // Store the blob directly
     </script>
 </body>
 </html>
+
+            
